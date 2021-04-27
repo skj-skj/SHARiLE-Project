@@ -7,6 +7,7 @@ import 'package:http_server/http_server.dart';
 import 'package:mime/mime.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sharile_v2/brain/html_generator.dart';
+import 'package:sharile_v2/constants/web_static_data.dart';
 // import 'package:sharile_v2/components/route_animation.dart';
 // import 'package:sharile_v2/filePicker/sharile_file_picker.dart';
 
@@ -133,6 +134,7 @@ class ServerBrain {
 
     _server.listen((request) async {
       if (request.uri.path == '/') {
+        print("Home");
         //starting page to upload file (not accessing endpoint '/upload')
         request.response
           ..headers.contentType = ContentType.html
@@ -146,18 +148,26 @@ class ServerBrain {
           ..write(_htmlGenerator.generateReceiveIndexCSS());
       } else if (request.uri.path == '/upload') {
         // accessing 'upload' endpoint
-        List<int> dataBytes = [];
+        // Removing DataBytes variable
+        // List<int> dataBytes = [];
 
         await for (var data in request) {
           // received data but don't know the file name & type
-          dataBytes.addAll(data);
+          // dataBytes.addAll(data);
+          // storing data in storage as temp file
+          await File('$dirPath/temp').writeAsBytes(data,mode: FileMode.append);
         }
         // Converting Data to Stream & getting file name and type
         String boundary = request.headers.contentType.parameters['boundary'];
         final transformer = MimeMultipartTransformer(boundary);
 
-        final bodyStream = Stream.fromIterable([dataBytes]);
-        final parts = await transformer.bind(bodyStream).toList();
+        //Removing bodyStream
+        // final bodyStream = Stream.fromIterable([dataBytes]);
+        
+
+        //Getting parts data from temp file as stream instead of bodyStream.
+        // final parts = await transformer.bind(bodyStream).toList();
+        final parts = await transformer.bind(File('$dirPath/temp').readAsBytes().asStream()).toList();
 
         for (var part in parts) {
           //getting the content info
@@ -174,7 +184,17 @@ class ServerBrain {
           // Write file to phone storage
           await File('$dirPath/$filename').writeAsBytes(content[0]);
         }
+
+        //Deleting temp file
+        File('$dirPath/temp').delete();
+
+        //File Received Response
+        request.response
+        ..headers.contentType = ContentType.html
+        ..write(kFileReceivedSuccessfully);
+        
       }
+
       //closing the request
       await request.response.close();
     });
