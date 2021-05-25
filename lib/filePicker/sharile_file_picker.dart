@@ -54,7 +54,7 @@ class SharileFilePicker extends StatelessWidget {
         child: Builder(builder: (BuildContext context) {
           return Scaffold(
             appBar: AppBar(
-              title: Text("SHARiLE File Picker Test"),
+              title: Text("SHARiLE File Picker"),
               centerTitle: true,
               bottom: TabBar(
                 tabs: [
@@ -91,37 +91,30 @@ class SharileFilePicker extends StatelessWidget {
                           DefaultTabController.of(context).animateTo(1);
                           List<StorageInfo> storageInfo =
                               await getStorageLocationInfo();
-                          if (storageInfo.length > 1) {
-                            print("${storageInfo[0].rootDir}");
-                            if (storageInfo[0].rootDir.length > 1) {
+
+                          //This if Checks if the storageInfo gets Internal Storage path as the length of storage info should be atleast 1.
+                          if (storageInfo.length >= 1) {
+                            String path = storageInfo[0].rootDir;
+                            print("$path");
+                            final snackBar = SnackBar(content: Text("$path"));
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+
+                            if (path.length > 1) {
                               // context.read<RootPathModel>().selectedRootPath =
                               //     storageInfo[0].rootDir;
 
                               context
                                   .read<FileSystemModelList>()
-                                  .setRootPath(storageInfo[0].rootDir);
+                                  .setRootPath(path);
                               context.read<FileSystemModelList>().currentPath =
-                                  storageInfo[0].rootDir;
+                                  path;
 
                               context
                                   .read<FileSystemModelList>()
                                   .genListOfFileAndFolder();
                             }
                           }
-
-                          // DefaultTabController.of(context).animateTo(1);
-                          // print(
-                          //     'Internal Storage root:\n ${(_storageInfo.length > 0) ? _storageInfo[0].rootDir : "unavailable"}\n');
-                          // print(
-                          //     'Internal Storage appFilesDir:\n ${(_storageInfo.length > 0) ? _storageInfo[0].appFilesDir : "unavailable"}\n');
-                          // print(
-                          //     'Internal Storage AvailableGB:\n ${(_storageInfo.length > 0) ? _storageInfo[0].availableGB : "unavailable"}\n');
-                          // print(
-                          //     'SD Card root: ${(_storageInfo.length > 1) ? _storageInfo[1].rootDir : "unavailable"}\n');
-                          // print(
-                          //     'SD Card appFilesDir: ${(_storageInfo.length > 1) ? _storageInfo[1].appFilesDir : "unavailable"}\n');
-                          // print(
-                          //     'SD Card AvailableGB:\n ${(_storageInfo.length > 1) ? _storageInfo[1].availableGB : "unavailable"}\n');
                         },
                         child: Text("Internal Storage"),
                       ),
@@ -131,16 +124,19 @@ class SharileFilePicker extends StatelessWidget {
                           DefaultTabController.of(context).animateTo(1);
                           List<StorageInfo> storageInfo =
                               await getStorageLocationInfo();
+                          //This if Checks if the storageInfo gets External Storage path as the length of storage info should be atleast 2.
                           if (storageInfo.length > 1) {
-                            print("${storageInfo[1].rootDir}");
-                            if (storageInfo[1].rootDir.length > 1) {
+                            String path = storageInfo[1].rootDir;
+                            print("$path");
+
+                            if (path.length > 1) {
                               // context.read<RootPathModel>().selectedRootPath =
                               //     storageInfo[1].rootDir;
                               context
                                   .read<FileSystemModelList>()
-                                  .setRootPath(storageInfo[1].rootDir);
+                                  .setRootPath(path);
                               context.read<FileSystemModelList>().currentPath =
-                                  storageInfo[1].rootDir;
+                                  path;
 
                               context
                                   .read<FileSystemModelList>()
