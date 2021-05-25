@@ -22,16 +22,15 @@ class FileSystemModelList extends ChangeNotifier {
 
   String _currentPath;
   List<String> _rootPath = [];
-  Map<String,String> _selectedFiles = {};
+  Map<String, String> _selectedFiles = {};
   // Set<FileSystemModel> get selectedFiles => _selectedFiles;
 
-  Map<String,String> get selectedFiles => _selectedFiles;
+  Map<String, String> get selectedFiles => _selectedFiles;
 
   void printSelectedFiles() {
     _selectedFiles.entries.forEach((item) {
-      print(item.value + " : "+ item.key);
-
-     });
+      print(item.value + " : " + item.key);
+    });
     // _selectedFiles.forEach((item) {
     //   print(item.name + " : " + item.path);
     // });
@@ -49,9 +48,9 @@ class FileSystemModelList extends ChangeNotifier {
   }
 
   bool isFileSelected(FileSystemModel item) {
-    if(_selectedFiles.keys.contains(item.path)){
+    if (_selectedFiles.keys.contains(item.path)) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }

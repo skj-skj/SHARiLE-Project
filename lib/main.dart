@@ -15,7 +15,7 @@ class SharileApp extends StatelessWidget {
         HomeScreen.id: (context) => HomeScreen(),
         SendScreen.id: (context) => SendScreen(),
         ReceiveScreen.id: (context) => ReceiveScreen(),
-        SharileFilePicker.id:(context) => SharileFilePicker(),
+        SharileFilePicker.id: (context) => SharileFilePicker(),
       },
     );
   }

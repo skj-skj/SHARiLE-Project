@@ -44,16 +44,16 @@ class ItemTile extends StatelessWidget {
           } else {
             if (!Provider.of<FileSystemModelList>(context, listen: false)
                 .isFileSelected(item)) {
-                  print("Adding");//For Debugging
+              print("Adding"); //For Debugging
               Provider.of<FileSystemModelList>(context, listen: false)
                   .addInSelectedFiles(item);
             } else {
-              print("Removing");//For Debugging
+              print("Removing"); //For Debugging
               Provider.of<FileSystemModelList>(context, listen: false)
                   .removeFromSelectedFiles(item);
             }
             Provider.of<FileSystemModelList>(context, listen: false)
-                  .printSelectedFiles(); //For Debugging
+                .printSelectedFiles(); //For Debugging
 
             print("____----END----____"); //For Debugging
 

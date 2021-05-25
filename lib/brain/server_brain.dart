@@ -21,11 +21,10 @@ class ServerBrain {
     setIpAddress();
   }
 
-  void setIpAddress() async{
-     // getting Gateway ip Address;
+  void setIpAddress() async {
+    // getting Gateway ip Address;
     _ipAddress = await GetIp.ipAddress;
   }
-
 
   startServer({int port}) async {
     // getting Gateway ip Address;
@@ -46,10 +45,10 @@ class ServerBrain {
     _filePaths = {};
   }
 
-  sendFile({Map<String,String> selectedFileResult}) async {
+  sendFile({Map<String, String> selectedFileResult}) async {
     // Select Files
 
-    Map<String,String> result = selectedFileResult;
+    Map<String, String> result = selectedFileResult;
     // await Navigator.push(context, MaterialPageRoute(builder: (context) => SharileFilePicker()));
     print(result);
     // FilePickerResult result = await FilePicker.platform
@@ -155,7 +154,7 @@ class ServerBrain {
           // received data but don't know the file name & type
           // dataBytes.addAll(data);
           // storing data in storage as temp file
-          await File('$dirPath/temp').writeAsBytes(data,mode: FileMode.append);
+          await File('$dirPath/temp').writeAsBytes(data, mode: FileMode.append);
         }
         // Converting Data to Stream & getting file name and type
         String boundary = request.headers.contentType.parameters['boundary'];
@@ -163,11 +162,12 @@ class ServerBrain {
 
         //Removing bodyStream
         // final bodyStream = Stream.fromIterable([dataBytes]);
-        
 
         //Getting parts data from temp file as stream instead of bodyStream.
         // final parts = await transformer.bind(bodyStream).toList();
-        final parts = await transformer.bind(File('$dirPath/temp').readAsBytes().asStream()).toList();
+        final parts = await transformer
+            .bind(File('$dirPath/temp').readAsBytes().asStream())
+            .toList();
 
         for (var part in parts) {
           //getting the content info
@@ -190,9 +190,8 @@ class ServerBrain {
 
         //File Received Response
         request.response
-        ..headers.contentType = ContentType.html
-        ..write(kFileReceivedSuccessfully);
-        
+          ..headers.contentType = ContentType.html
+          ..write(kFileReceivedSuccessfully);
       }
 
       //closing the request
