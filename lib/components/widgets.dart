@@ -15,6 +15,7 @@ class RoundedButton extends StatelessWidget {
       borderRadius: BorderRadius.all(Radius.circular(22.0)),
 //      shape: RoundedRectangleBorder(
 //          borderRadius: BorderRadius.all(Radius.circular(22.0))),
+      // ignore: deprecated_member_use
       child: FlatButton(
         onPressed: onPressed,
         child: Padding(
