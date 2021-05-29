@@ -13,14 +13,16 @@ class HtmlGenerator {
     for (int i = 0; i < filePaths.length; i++) {
       String filePath = allPaths[i];
       String fileName = allNames[i];
-      divBlocks +=
-          '<div class="main"><a href="$filePath" download>$fileName</a></div>';
+      divBlocks += '<div><a href="$filePath" download>$fileName</a></div>';
     }
-    divBlocks = '<div class="container">$divBlocks</div>'; // creating main div
+    divBlocks = '<section>$divBlocks</seciton>'; // creating main div
 
     _indexHTML = ''' 
             $kSendFileIndexPageHTMLTillHeadAndStyleTag
-              <body>$divBlocks</body>
+              <body>
+                <nav></nav>
+                $divBlocks
+              </body>
             </html>
         ''';
 
